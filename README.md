@@ -4,33 +4,33 @@
 
 1. [Abstract](#abstract)
 2. [Setup](#setup)
-    1. [Environment Variables](#environment-variables)
-    2. [Depencencies](#dependencies)
-    3. [Clasp](#clasp)
+   1. [Environment Variables](#environment-variables)
+   2. [Depencencies](#dependencies)
+   3. [Clasp](#clasp)
 3. [GitHub Actions](#github-actions)
 4. [Development](#Developtment)
-    1. [Directory Structure](#directory-structure)
-    2. [Formatting and Conventions](#formatting)
-    3. [Commit Messages](#commit)
-    4. [Deploying to GAS](#deploy)
-    5. [Workflow](#workflow)
+   1. [Directory Structure](#directory-structure)
+   2. [Formatting and Conventions](#formatting)
+   3. [Commit Messages](#commit)
+   4. [Deploying to GAS](#deploy)
+   5. [Workflow](#workflow)
 
 ## <a id="abstract"></a> Abstract
 
 This repository provides boilerplate configurations for SA-SEL's **G**oogle **A**pps **S**cripts projects:
 
 - Git hooks (via Husky);
-  * Linting/autoformatting staged files on commit;
-  * Commit message style checking/enforcing.
+  - Linting/autoformatting staged files on commit;
+  - Commit message style checking/enforcing.
 - GitHub Workflows for linting and deploying;
 - GitHub PR and issue templates;
 - Node, TypeScript, Prettier and ESLint configs;
 - Script for syncing the GitHub repository with a GAS project (via Clasp);
 - Script for compiling all of the code inside `src/` and then pushing it to GAS (via Clasp);
-  * Merging everything into a single file;
-  * Transpiling this file to JavaScript;
-  * Removing all `export` statements from this file.
-  * Setting up the correct directory structure;
+  - Merging everything into a single file;
+  - Transpiling this file to JavaScript;
+  - Removing all `export` statements from this file.
+  - Setting up the correct directory structure;
 - README template (yes, this one).
 
 Most of these items have the goal to facilitate the development of GAS projects locally with autocompletion in TypeScript, using multiple modules and path aliases.
@@ -96,8 +96,7 @@ The actual code lies inside the directories of `src/`:
 
 Each of those directories has a path alias set (`@utils`, `@core` and `@models`), so you should import using these unless you're in the same directory, in which case you'll use the relative path (`./path/to/module`) in order to avoid circular dependencies.
 
-Whenever you create a new module, you should "re-export" all of it's exports from their directory's `index.ts`.
-\
+Whenever you create a new module, you should "re-export" all of it's exports from their directory's `index.ts`. \
 \
 PS: If you wanna see how all of those files are merged into one, run
 
@@ -166,7 +165,7 @@ This is the actual message that must summarize the code changes in a short phras
 
 - Be capitalized;
 - Be in english;
-- Use the *imperative present tense* (e.g. "change" instead of "changed" or "changes");
+- Use the _imperative present tense_ (e.g. "change" instead of "changed" or "changes");
 - No trailing punctuation (period, exclamation, etc);
 - Be at most 60 characters long;
 
