@@ -8,8 +8,8 @@ import {
   Student,
   getNamedValue,
   institutionalEmails,
-  substituteVariableInString,
   substituteVariablesInFile,
+  substituteVariablesInString,
 } from '@lib';
 import { Project } from '@utils/classes';
 import { NamedRange } from '@utils/constants';
@@ -64,11 +64,10 @@ export const createMeetingMinutes = () =>
         [MeetingVariable.Start]: now.asTime(),
         [MeetingVariable.End]: MeetingVariable.End,
         [MeetingVariable.MeetingAttendees]: attendees.toBulletpoints(),
-        [MeetingVariable.Type]: 'Projeto',
       };
       const webhook = new DiscordWebhook(getNamedValue(NamedRange.DiscordWebhook));
 
-      minutesFile.setName(substituteVariableInString(minutesFile.getName(), variables));
+      minutesFile.setName(substituteVariablesInString(minutesFile.getName(), variables));
       substituteVariablesInFile(minutesFile, variables);
 
       logger.log(`${DialogTitle.Success}`, `Ata criada com sucesso:\n${minutesFile.getUrl()}`);

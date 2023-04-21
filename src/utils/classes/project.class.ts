@@ -6,7 +6,7 @@ import {
   Student,
   createOrGetFolder,
   getNamedValue,
-  substituteVariableInString,
+  substituteVariablesInString,
   substituteVariablesInFile,
 } from '@lib';
 import { NamedRange } from '@utils/constants';
@@ -30,7 +30,7 @@ export class Project extends BaseProject {
     const minutesTemplate = DriveApp.getFileById(getNamedValue(NamedRange.MinutesTemplate));
     const targetDir = createOrGetFolder('Atas', this.folder);
 
-    this.meetingMinutes = minutesTemplate.makeCopy(substituteVariableInString(minutesTemplate.getName(), templateVariables), targetDir);
+    this.meetingMinutes = minutesTemplate.makeCopy(substituteVariablesInString(minutesTemplate.getName(), templateVariables), targetDir);
     substituteVariablesInFile(this.meetingMinutes, templateVariables);
 
     return this.meetingMinutes;
