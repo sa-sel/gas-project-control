@@ -3,13 +3,13 @@ import { NamedRange, sheets } from '@utils/constants';
 
 const getMembers = (present?: boolean): Student[] =>
   fetchData(GS.ss.getRangeByName(NamedRange.ProjectMembers), {
-    filter: row => (present === undefined ? true : present === !!row[4]),
+    filter: row => (present === undefined ? true : present === !!row[3]),
     map: row =>
       new Student({
-        name: row[1],
+        name: row[0],
         nUsp: '',
-        nickname: row[2],
-        email: row[3],
+        nickname: row[1],
+        email: row[2],
       }),
   });
 
