@@ -2,10 +2,12 @@ import {
   DialogTitle,
   DiscordEmbed,
   DiscordWebhook,
+  File,
   MeetingVariable,
   SafeWrapper,
   SheetLogger,
   Student,
+  Transaction,
   alert,
   getNamedValue,
   institutionalEmails,
@@ -52,7 +54,7 @@ export const createMeetingMinutes = () =>
       }
       logger.log(DialogTitle.InProgress, `Execução iniciada para reunião com ${clerk} na redação.`);
 
-      const minutesFile = project.createMeetingMinutes();
+      let minutesFile: File;
       const now = new Date();
       const variables: Record<MeetingVariable, string> = {
         [MeetingVariable.Clerk]: clerk,
@@ -64,13 +66,23 @@ export const createMeetingMinutes = () =>
       };
       const webhook = new DiscordWebhook(getNamedValue(NamedRange.DiscordWebhook));
 
-      minutesFile.setName(substituteVariablesInString(minutesFile.getName(), variables));
-      substituteVariablesInFile(minutesFile, variables);
+      new Transaction(logger)
+        .step({
+          forward: () => {
+            minutesFile = project.createMeetingMinutes();
+            minutesFile.setName(substituteVariablesInString(minutesFile.getName(), variables));
+          },
+          backward: () => minutesFile?.setTrashed(true),
+        })
+        .step({
+          forward: () => substituteVariablesInFile(minutesFile, variables),
+        })
+        .run();
 
       const body = `Ata criada com sucesso:\n${minutesFile.getUrl()}`;
 
-      logger.log(DialogTitle.Success, body);
       alert({ title: DialogTitle.Success, body });
+      logger.log(DialogTitle.Success, body);
       webhook.url && webhook.post({ embeds: buildMeetingDiscordEmbeds(project, now, attendees, clerk) });
     },
   );

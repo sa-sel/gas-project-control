@@ -4,6 +4,7 @@ import {
   GS,
   SaDepartment,
   Student,
+  Transaction,
   createOrGetFolder,
   getNamedValue,
   substituteVariablesInFile,
@@ -33,8 +34,21 @@ export class Project extends BaseProject {
     const minutesTemplate = DriveApp.getFileById(getNamedValue(NamedRange.MinutesTemplate));
     const targetDir = createOrGetFolder('Atas', this.folder);
 
-    this.meetingMinutes = minutesTemplate.makeCopy(substituteVariablesInString(minutesTemplate.getName(), templateVariables), targetDir);
-    substituteVariablesInFile(this.meetingMinutes, templateVariables);
+    new Transaction()
+      .step({
+        forward: () =>
+          (this.meetingMinutes = minutesTemplate.makeCopy(
+            substituteVariablesInString(minutesTemplate.getName(), templateVariables),
+            targetDir,
+          )),
+        backward: () => this.meetingMinutes?.setTrashed(true),
+      })
+      .step({
+        forward: () => {
+          substituteVariablesInFile(this.meetingMinutes, templateVariables);
+        },
+      })
+      .run();
 
     return this.meetingMinutes;
   }
