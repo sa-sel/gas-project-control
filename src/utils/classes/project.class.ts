@@ -44,9 +44,7 @@ export class Project extends BaseProject {
         backward: () => this.meetingMinutes?.setTrashed(true),
       })
       .step({
-        forward: () => {
-          substituteVariablesInFile(this.meetingMinutes, templateVariables);
-        },
+        forward: () => substituteVariablesInFile(this.meetingMinutes, templateVariables),
       })
       .run();
 

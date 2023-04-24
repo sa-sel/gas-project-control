@@ -6,5 +6,5 @@ export const onOpen = () => {
   GS.ss.getRangeByName(NamedRange.MeetingClerk).clearContent();
   GS.ss.getRangeByName(NamedRange.ProjectMembers).uncheck();
 
-  GS.ssui.createMenu('[Reunião]').addItem('Criar Ata', createMeetingMinutes.name).addToUi();
+  GS.ui.createMenu('[Reunião]').addItem('Criar Ata', createMeetingMinutes.name).addToUi();
 };

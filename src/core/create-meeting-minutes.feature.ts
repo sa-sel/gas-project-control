@@ -40,7 +40,7 @@ const buildMeetingDiscordEmbeds = (project: Project, meetingStart: Date, attende
 };
 
 export const createMeetingMinutes = () =>
-  SafeWrapper.factory(createMeetingMinutes.name, [...institutionalEmails, ...getAllMembers().map(m => m.email)]).wrap(
+  SafeWrapper.factory(createMeetingMinutes.name, { allowedEmails: [...institutionalEmails, ...getAllMembers().map(m => m.email)] }).wrap(
     (logger: SheetLogger) => {
       const project = Project.spreadsheetFactory();
       const clerk = getNamedValue(NamedRange.MeetingClerk);
@@ -83,6 +83,6 @@ export const createMeetingMinutes = () =>
 
       alert({ title: DialogTitle.Success, body });
       logger.log(DialogTitle.Success, body);
-      webhook.url && webhook.post({ embeds: buildMeetingDiscordEmbeds(project, now, attendees, clerk) });
+      webhook.post({ embeds: buildMeetingDiscordEmbeds(project, now, attendees, clerk) });
     },
   );

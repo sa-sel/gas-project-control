@@ -1,6 +1,6 @@
 export const enum NamedRange {
   MinutesTemplate = 'MinutesTemplate',
-  DiscordWebhook = 'DiscordWebhook',
+  DiscordWebhook = 'ProjectWebhook',
 
   MeetingClerk = 'MeetingClerk',
 
