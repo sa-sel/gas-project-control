@@ -14,6 +14,7 @@ import {
   substituteVariablesInFile,
   substituteVariablesInString,
 } from '@lib';
+import { MeetingType } from '@lib/constants/meeting.constant';
 import { Project } from '@utils/classes';
 import { NamedRange } from '@utils/constants';
 import { getAllMembers, getPresentMembers } from '@utils/functions';
@@ -27,7 +28,7 @@ const buildMeetingDiscordEmbeds = (project: Project, meetingStart: Date, attende
 
   return [
     {
-      title: 'Reunião de Projeto',
+      title: MeetingType.Project,
       url: project.meetingMinutes.getUrl(),
       timestamp: meetingStart.toISOString(),
       fields,
@@ -63,6 +64,7 @@ export const createMeetingMinutes = () =>
         [MeetingVariable.Start]: now.asTime(),
         [MeetingVariable.End]: MeetingVariable.End,
         [MeetingVariable.MeetingAttendees]: attendees.toBulletpoints(),
+        [MeetingVariable.MeetingType]: MeetingType.Project,
       };
       const webhook = new DiscordWebhook(getNamedValue(NamedRange.DiscordWebhook));
 
